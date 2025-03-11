@@ -1,0 +1,4 @@
+# Параметры по умолчанию (при необходимости)
+dnsmasq_listen_address: "127.0.0.1"
+dnsmasq_port: 5353
+dnsmasq_cache_size: 1000

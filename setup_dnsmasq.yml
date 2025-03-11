@@ -1,0 +1,6 @@
+---
+#wsl ansible-playbook -i inventory setup_dnsmasq.yml
+- hosts: all
+  become: yes
+  roles:
+    - dnsmasq

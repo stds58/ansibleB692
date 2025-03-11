@@ -1,0 +1,12 @@
+---
+# Обработчик для перезапуска Nginx
+- name: Перезапуск Nginx
+  systemd:
+    name: nginx
+    state: restarted
+
+# Обработчик для перезапуска PHP-FPM
+- name: Перезапуск php-fpm
+  systemd:
+    name: php{{ php_version }}-fpm
+    state: restarted

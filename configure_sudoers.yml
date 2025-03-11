@@ -1,0 +1,24 @@
+---
+#wsl ansible-playbook -i inventory configure_sudoers.yml
+- hosts: all
+  become: yes
+  tasks:
+    - name: Создание группы superusers
+      group:
+        name: superusers
+        state: present
+
+    - name: Добавление пользователей user2 и user3 в группу superusers
+      user:
+        name: "{{ item }}"
+        groups: superusers
+        append: yes
+      loop:
+        - user2
+        - user3
+
+    - name: Разрешение группе superusers выполнять sudo без пароля
+      lineinfile:
+        path: /etc/sudoers
+        line: '%superusers ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'

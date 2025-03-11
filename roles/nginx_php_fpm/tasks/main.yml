@@ -1,0 +1,51 @@
+---
+# Установка Nginx
+- name: Установка Nginx
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+
+# Установка PHP-FPM
+- name: Установка PHP-FPM
+  apt:
+    name: php{{ php_version }}-fpm
+    state: present
+
+# Создание корневой директории для веб-сервера
+- name: Создание корневой директории
+  file:
+    path: "{{ nginx_root }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
+
+# Копирование тестового файла index.php
+- name: Копирование файла index.php
+  copy:
+    src: index.php
+    dest: "{{ nginx_root }}/index.php"
+    owner: www-data
+    group: www-data
+    mode: '0644'
+
+# Настройка конфигурации Nginx через шаблон
+- name: Настройка конфигурации Nginx
+  template:
+    src: default.conf.j2
+    dest: /etc/nginx/sites-available/default
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Перезапуск Nginx
+
+# Настройка конфигурации PHP-FPM через шаблон
+- name: Настройка конфигурации PHP-FPM
+  template:
+    src: www.conf.j2
+    dest: /etc/php/{{ php_version }}/fpm/pool.d/www.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Перезапуск php-fpm

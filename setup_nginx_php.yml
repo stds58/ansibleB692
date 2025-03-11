@@ -1,0 +1,6 @@
+---
+#wsl ansible-playbook -i inventory setup_nginx_php.yml
+- hosts: all
+  become: yes
+  roles:
+    - nginx_php_fpm
