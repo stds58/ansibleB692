@@ -1,0 +1,24 @@
+[www]
+
+; Пользователь и группа процессов PHP-FPM
+user = www-data
+group = www-data
+
+; Путь к сокету
+listen = /var/run/php/php{{ php_version }}-fpm.sock
+
+; Права доступа к сокету
+listen.owner = www-data
+listen.group = www-data
+listen.mode = 0660
+
+; Управление процессами
+pm = dynamic
+pm.max_children = 5
+pm.start_servers = 2
+pm.min_spare_servers = 1
+pm.max_spare_servers = 3
+
+; Логирование
+slowlog = /var/log/php{{ php_version }}-fpm-slow.log
+request_slowlog_timeout = 5s
